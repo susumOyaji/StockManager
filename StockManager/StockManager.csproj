@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
+    <PackageReference Include="PCLStorage" Version="1.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="ViewModel\AddPage.xaml" />
+    <EmbeddedResource Remove="ViewModel\indicate.xaml" />
+    <EmbeddedResource Remove="View\EntryPage1.xaml" />
+    <EmbeddedResource Remove="View\Indicator.xaml" />
+    <EmbeddedResource Remove="View\IndicatorView.xaml" />
+    <EmbeddedResource Remove="View\ListViewPage.xaml" />
+    <EmbeddedResource Remove="View\MainPage.xaml" />
+    <EmbeddedResource Remove="View\Ranking.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ViewModel\AddPage.xaml" />
+    <None Include="ViewModel\indicate.xaml" />
+    <None Include="View\EntryPage.xaml" />
+    <None Include="View\EntryPage1.xaml" />
+    <None Include="View\Indicator.xaml" />
+    <None Include="View\IndicatorView.xaml" />
+    <None Include="View\ListViewPage.xaml" />
+    <None Include="View\MainPage.xaml" />
+    <None Include="View\Ranking.xaml" />
+    <None Include="View\MainPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="View\EntryPage.xaml.cs">
+      <DependentUpon>EntryPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

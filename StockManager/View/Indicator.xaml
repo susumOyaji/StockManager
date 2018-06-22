@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:StockManager;assembly=StockManager"
+             x:Class="StockManager.View.Indicator">
+    
+
+
+
+    <RelativeLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <StackLayout x:Name="mainLayout" VerticalOptions="FillAndExpand" Orientation="Vertical">
+                    <StackLayout.Padding>
+                        <OnPlatform x:TypeArguments="Thickness"
+                        iOS="10, 10, 10, 0"
+                        Android="10, 10, 10, 0"
+                        WinPhone="10, 10, 10, 0" />
+                    </StackLayout.Padding>
+                     
+                    <!--ここにラベルやSwitch、Picker、Entry等のコンテンツを配置します。-->
+ 
+                </StackLayout>
+
+        
+                <ContentView x:Name="cvLayer"
+                             BackgroundColor="Orange"
+                             Opacity="0.8"
+                             IsVisible="False"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                          Property=Width,
+                                                          Factor=0.25}"
+                             RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,
+                                                          Property=Height,
+                                                          Factor=0.4}">
+                    <Frame x:Name="frLayer"
+                           BackgroundColor="White"
+                           IsVisible="False">
+                        <StackLayout>
+                            <ActivityIndicator x:Name="Indicator" IsRunning="False">
+                                <ActivityIndicator.Color>
+                                    <OnPlatform x:TypeArguments="Color"
+                                                iOS="Orange"
+                                                Android="Orange"
+                                                WinPhone="Accent" />
+                                </ActivityIndicator.Color>
+                            </ActivityIndicator>
+                          
+                        </StackLayout>
+                    </Frame>
+                </ContentView>
+            </RelativeLayout>
+
+
+
+
+
+ 
+
+
+
+
+</ContentPage>

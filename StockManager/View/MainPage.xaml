@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:StockManager;assembly=StockManager"
+             xmlns:vm="StockManager.MainPage"
+             x:Class="StockManager.MainPage"
+             x:Name="page"
+             BackgroundColor="#0B3950">
+
+
+
+    <!--iOSの場合は上部に余白を設ける-->
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness" iOS="0,20,0,0"/>
+    </ContentPage.Padding>
+
+    <!--
+    <ContentPage.BindingContext>
+        <vm:MainPageMenu View="{x:Reference page}"/>
+    </ContentPage.BindingContext>
+-->
+    <!--
+    <TabbedPage.Resources>
+    <ResourceDictionary>
+      <local:NonNullToBooleanConverter x:Key="booleanConverter" />
+    </ResourceDictionary>
+    </TabbedPage.Resources>
+    -->
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PageBackgroundColor">Blue</Color>
+            <Color x:Key="NormalTextColor">Yellow</Color>
+            <Style TargetType="Button" x:Key="ButtonBG">
+                <Setter Property="BackgroundColor" Value="Aqua"/>
+            </Style>
+            <Style TargetType="Label" x:Key="TextFormat">
+                <Setter Property="TextColor" Value="White"/>
+            </Style>
+            <Style TargetType="Label" x:Key="TitleTextFormat">
+                <Setter Property="BackgroundColor" Value="#12445D"/>
+                <Setter Property="TextColor" Value="Gray"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="StackLayout" x:Key="StackLayoutFormat">
+                <!--<Setter Property="HeightRequest" Value="520"/>-->
+                <Setter Property="BackgroundColor" Value="#0B3950"/>
+            </Style>
+            <Style TargetType="Frame" x:Key="FrameFormat">
+                <Setter Property="BackgroundColor" Value="#14435D"/>
+                <Setter Property="OutlineColor" Value="#14435D"/>
+            </Style>
+        </ResourceDictionary>
+
+    </ContentPage.Resources>
+
+
+
+
+
+
+
+    <!--
+    <ContentPage.ToolbarItems >
+        <ToolbarItem Name="Menu1" Activated="OnClick" Order="Primary" Priority="2" Icon="Menu1.png" />
+        <ToolbarItem Name="Menu2" Activated="OnClick" Order="Primary" Priority="1" Icon="Menu2.png"/>
+        <ToolbarItem Name="Menu3" Activated="OnClick" Order="Primary" Priority="3" Icon="Menu3.png"/>
+        <ToolbarItem Name="Menu4" Activated="OnClick" Order="Secondary" Priority="1" Icon="Menu4.png"/>
+        <ToolbarItem Name="Menu5" Activated="OnClick" Order="Secondary" Priority="1" Icon="Menu5.png"/>
+    </ContentPage.ToolbarItems>
+    -->
+
+
+
+    <!-- Stock Management    -->
+    <StackLayout Orientation="Vertical" VerticalOptions="CenterAndExpand" Style="{StaticResource StackLayoutFormat}">
+        <!-- Opening Disp-->
+
+
+
+        <Grid HorizontalOptions="Center" VerticalOptions="Center"  RowSpacing="10">
+            <!-- 行の定義 -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!-- 列の定義 -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Stock Manage" TextColor="#FF7F00" FontSize="Large" FontAttributes="Bold"  HorizontalOptions="Center" />
+
+
+
+
+            <Image Source="{local:ImageResource Images.Stock.png}" Grid.Row="1" Grid.Column="0" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnInvestTap" />
+                </Image.GestureRecognizers>
+            </Image>
+
+            <Image Source="{local:ImageResource Images.Search.png}" Grid.Row="2" Grid.Column="0" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnRankingTap" />
+                </Image.GestureRecognizers>
+            </Image>
+
+
+            <Image Source="{local:ImageResource Images.Option.png}" Grid.Row="3" Grid.Column="0" >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnRankingTap" />
+                </Image.GestureRecognizers>
+            </Image>
+
+
+            <!--
+            <Label Grid.Row="1" Grid.Column="0" Text="Investment" Style="{StaticResource TitleTextFormat}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer  Tapped="OnInvestTap" />
+                </Label.GestureRecognizers>
+            </Label>
+            
+            
+            
+            <Label Grid.Row="2" Grid.Column="0" Text="Ranking Search" Style="{StaticResource TitleTextFormat}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnRankingTap" />
+                </Label.GestureRecognizers>
+            </Label>
+          
+            
+            <Label Grid.Row="3" Grid.Column="0" Text="Option" Style="{StaticResource TitleTextFormat}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer  Command="{Binding TopOption}"/>
+                </Label.GestureRecognizers>
+            </Label>
+  -->
+
+        </Grid>
+
+
+
+
+
+    </StackLayout>
+
+</ContentPage>
+
+
