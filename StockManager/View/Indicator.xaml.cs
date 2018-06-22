@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace StockManager
+namespace StockManager.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Indicator : ContentPage
@@ -18,7 +18,7 @@ namespace StockManager
         }
 
 
-        async Task Guruguru( )
+        async Task Guruguru()
         {
 
             try

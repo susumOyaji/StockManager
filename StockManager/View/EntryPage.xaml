@@ -2,19 +2,19 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
             x:Class="StockManager.View.EntryPage1"
-            Title="Entry Demo - XAML">
+            Title="Edit Mode">
 
     
     <ContentPage.Content>
         <StackLayout Padding="5,10">
-            <Label Text="This page demonstrates the Entry View. The Entry is used for collecting text that is expected to take one line." />
+            
             <Label Text="Unlike the Editor, the Entry view supports more advanced formatting and customization." />
             <ScrollView VerticalOptions="StartAndExpand">
                 <StackLayout>
-                    <Entry  x:Name="index" Placeholder="Index" TextChanged="Entry_TextChanged" Text="{Binding getuserindex}" TextColor="#77d065"  />
-                    <Entry  x:Name="code" Placeholder="Code"  BackgroundColor="#2c3e50" />
-                    <Entry  x:Name="shares" Placeholder="Stock" IsPassword="true"  />
-                    <Entry Text="Default presentation"  />
+                    <Entry  x:Name="index" Placeholder="Index" TextChanged="Entry_TextChanged" Keyboard="Numeric"  />
+                    <Entry  x:Name="code" Placeholder="Code"  />
+                    <Entry  x:Name="stock" Placeholder="Stock" />
+                    <Entry  x:Name="price" Placeholder="Price" />
                     <Entry Placeholder="Placeholder text" />
                     <Entry IsEnabled="false" Text="This is a disabled entry" />
                     <Entry TextColor="#77d065" Text="This is an entry with a textcolor specified" />

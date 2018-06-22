@@ -11,7 +11,7 @@ namespace StockManager
         // internal ListViewPageViewModel Vm { get; set; }
         private ObservableCollection<string> messages = new ObservableCollection<string>();
 
-       
+
         public ListViewPage()
         {
             InitializeComponent();
@@ -23,9 +23,9 @@ namespace StockManager
 
         public void Reloadbusy(bool rotation)
         {
-           // Indicator.IsEnabled = rotation;
+            // Indicator.IsEnabled = rotation;
             Indicator.IsVisible = rotation; // true 回転, faluse 停止
-           
+
         }
 
 
@@ -34,7 +34,7 @@ namespace StockManager
 
         public void OnEdit(object sender, EventArgs e)
         {
-            
+
             var newPage = new ContentPage();
             Navigation.PushAsync(newPage);
 
@@ -73,6 +73,50 @@ namespace StockManager
             var itemindex = ((Price)mi.CommandParameter).Idindex;
             DisplayAlert("CanselCOmmand Context Action", itemindex + " cansel context action", "OK");
         }
+
+
+
+
+        internal void OnSelection(object sender, SelectedItemChangedEventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            var option = mi.Text;
+
+            if (e.SelectedItem == null)
+            {
+                return; //ItemSelected is called on deselection, which results in SelectedItem being set to null
+            }
+            DisplayAlert("Item Selected", e.SelectedItem.ToString(), "Ok");
+            //((ListViewPage)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
+
+        }
+
+
+        /// <summary>
+        /// ListViewの項目選択時に呼ばれる
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            await Navigation.PushAsync(new EntryPage1(sender, e));
+
+        }
+
+
+        /// <summary>
+        /// 項目タップ時に呼ばれる
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            //this.Navigation.PushAsync(new EntryPage(e));
+            //Navigation.PopAsync();
+            //DisplayAlert("Item Tapped", item.ToString(), "Ok");
+
+        }
+
 
 
 
@@ -160,46 +204,7 @@ namespace StockManager
 
 
 
-        internal void OnSelection(object sender, SelectedItemChangedEventArgs e)
-        {
-            var mi = ((MenuItem)sender);
-            var option = mi.Text;
-
-            if (e.SelectedItem == null)
-            {
-                return; //ItemSelected is called on deselection, which results in SelectedItem being set to null
-            }
-            DisplayAlert("Item Selected", e.SelectedItem.ToString(), "Ok");
-            //((ListViewPage)sender).SelectedItem = null; //uncomment line if you want to disable the visual selection state.
-
-        }
-
-
-        /// <summary>
-        /// ListViewの項目選択時に呼ばれる
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            await Navigation.PushAsync(new EntryPage(sender, e));
-      
-        }
-
-
-        /// <summary>
-        /// 項目タップ時に呼ばれる
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            //this.Navigation.PushAsync(new EntryPage(e));
-            //Navigation.PopAsync();
-            //DisplayAlert("Item Tapped", item.ToString(), "Ok");
-
-        }
-
     }
 
 }
+

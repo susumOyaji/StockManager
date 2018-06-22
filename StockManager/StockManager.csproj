@@ -12,11 +12,24 @@
     <EmbeddedResource Remove="ViewModel\AddPage.xaml" />
     <EmbeddedResource Remove="ViewModel\indicate.xaml" />
     <EmbeddedResource Remove="View\EntryPage1.xaml" />
-    <EmbeddedResource Remove="View\Indicator.xaml" />
     <EmbeddedResource Remove="View\IndicatorView.xaml" />
-    <EmbeddedResource Remove="View\ListViewPage.xaml" />
     <EmbeddedResource Remove="View\MainPage.xaml" />
-    <EmbeddedResource Remove="View\Ranking.xaml" />
+    <EmbeddedResource Remove="MainPage.xaml" />
+    <EmbeddedResource Remove="View\Indicator.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="View\Indicator.xaml.cs~" />
+    <None Remove="View\Indicator.xaml~" />
+    <None Remove="Images\japan2.png" />
+    <None Remove="Images\usa1.png" />
+    <None Remove="Images\ReLoad.png" />
+    <None Remove="Images\Add.png" />
+    <None Remove="View\ListViewPage.xaml~" />
+    <None Remove="View\ListViewPage.xaml.cs~" />
+    <None Remove="View\Ranking.xaml.cs~" />
+    <None Remove="View\Ranking.xaml~" />
+    <None Remove="View\EntryPage.xaml~" />
+    <None Remove="View\EntryPage.xaml.cs~" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ViewModel\AddPage.xaml" />
@@ -28,11 +41,30 @@
     <None Include="View\ListViewPage.xaml" />
     <None Include="View\MainPage.xaml" />
     <None Include="View\Ranking.xaml" />
-    <None Include="View\MainPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="MainPage.xaml.cs" />
+    <Compile Remove="View\Indicator.xaml.cs" />
+    <Compile Remove="View\IndicatorView.xaml.cs" />
+    <Compile Remove="View\MainPage.xaml.cs" />
+    <Compile Remove="ViewModel\MainPageMenu.cs" />
+    <Compile Remove="View\EntryPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="View\EntryPage.xaml.cs">
       <DependentUpon>EntryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="View\ListViewPage.xaml.cs">
+      <DependentUpon>ListViewPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="View\Ranking.xaml.cs">
+      <DependentUpon>Ranking.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\japan2.png" />
+    <EmbeddedResource Include="Images\usa1.png" />
+    <EmbeddedResource Include="Images\ReLoad.png" />
+    <EmbeddedResource Include="Images\Add.png" />
   </ItemGroup>
 </Project>

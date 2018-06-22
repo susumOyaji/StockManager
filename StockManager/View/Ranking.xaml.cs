@@ -11,7 +11,7 @@ namespace StockManager
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);//1st.Pageのバーを消す
-           
+
         }
 
 

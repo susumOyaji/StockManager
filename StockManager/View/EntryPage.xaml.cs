@@ -19,9 +19,10 @@ namespace StockManager.View
 
             //NavigationPage.SetHasNavigationBar(this, false);
             var ID = new Label { Text = itemindex.ToString(), BackgroundColor = Color.Gray, TextColor = Color.White };
-            Entry usercode = new Entry { Text = itemname, BackgroundColor = Color.Gray, TextColor = Color.White, Keyboard = Keyboard.Default };
-            Entry usercost = new Entry { Text = itemstock.ToString(), BackgroundColor = Color.Gray, TextColor = Color.White, Keyboard = Keyboard.Numeric };
-            Entry usershares = new Entry { Text = itemprice.ToString(), BackgroundColor = Color.Gray, TextColor = Color.White, Keyboard = Keyboard.Numeric };
+            index.Text = itemindex.ToString();
+            code.Text = itemname;
+            stock.Text = itemstock.ToString();
+            price.Text = itemprice.ToString();
 
 
 
@@ -35,7 +36,7 @@ namespace StockManager.View
             ToolbarItems.Add(new ToolbarItem
             {
                 Text = "Save",
-                Command = new Command(() => SetData(itemindex, usercode, usercost, usershares))
+                Command = new Command(() => SetData(itemindex, index, code, price))
             });
 
         }
@@ -60,7 +61,7 @@ namespace StockManager.View
             }
             else
             {
-                DisplayAlert("Entry Command Meseg", "枹擖椡偺崁栚偑偁傝傑偡丅", "OK");
+                DisplayAlert("Entry Command Meseg", "未入力の項目があります。", "OK");
             }
 
         }
