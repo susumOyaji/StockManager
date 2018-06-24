@@ -370,8 +370,9 @@ namespace StockManager
             //Decimal TotalAssetprice = 0;
             //string NameMulti = "";
             //string TrgetWord = null, TrgetWord1 = null, TrgetWord2 = null;
-            string Value = null;
-            string YenRatio = null;
+            string RankingValue = null;
+            string Name = null;
+            string Dividend= null;
             string PercentRatio = null;
 
 
@@ -386,76 +387,78 @@ namespace StockManager
 
           
                 string searchWord = "rankingTabledata yjM";    //検索する文字列 ="stoksPrice"> 
+                string RankWore = "txtcenter\">";
+
                 int foundIndex = str.IndexOf(searchWord);//始めの位置を探す
                                                          //次の検索開始位置
-                int nextIndex = foundIndex + searchWord.Length;
+                int RankIndex = foundIndex + searchWord.Length;
                 try
                 {
                     //次の位置を探す
-                    foundIndex = str.IndexOf(searchWord, nextIndex);
+                    foundIndex = str.IndexOf(RankWore, RankIndex);
+
+                for (; Convert.ToString(str[foundIndex + i]) != "<"; i++)
+                {
                     if (foundIndex != -1)
                     {
-                        i = searchWord.Length + 2;//pricedata to point
-                        for (; Convert.ToString(str[foundIndex + i]) != "<"; i++)
-                        {
-                            Value = Value + str[foundIndex + i];//current value 現在値
-                        }
+                        RankingValue = RankingValue + str[foundIndex + RankWore.Length];//current value 順位
+                    }
+                }
+                  
+                    searchWord = "normal yjSt\">"; //検索する文字列 企業名
+                    foundIndex = str.IndexOf(searchWord);//始めの位置を探す
+                    i = searchWord.Length;
+                    for (; Convert.ToString(str[foundIndex + i]) != "<"; i++)
+                    {
+                        Name = Name + str[foundIndex + i];//previous 前日比? ¥
+                    }
+
+                    
+                    searchWord = "txtright\">"; //検索する文字列 配当金
+                    foundIndex = str.IndexOf(searchWord);//始めの位置を探す
+                    i = searchWord.Length;//次のsearchWordに進める
+                    foundIndex = foundIndex + i;
+                    foundIndex = str.IndexOf(searchWord,foundIndex);//始めの位置を探す
+                    for (; Convert.ToString(str[foundIndex + i]) != "<"; i++)//(－)下落
+                    {
+                        Dividend = Dividend + str[foundIndex + i];//(-)
+                    }
+                   
+
+
+
+
+                    i++;
+                    for (; Convert.ToString(str[foundIndex + i]) != "）"; i++)
+                    {
+                        PercentRatio = PercentRatio + str[foundIndex + i];//previous 前日比? %
+                    }
+
+
+                    if (RankingValue == "---")
+                    {
+                        //tabledata.Realprice = 000;
                     }
                     else
                     {
-                        //price[0] = "Error";
+                        //tabledata.Realprice = Convert.ToDecimal(RankingValue);//現在値
                     }
-
-                    string searchWord1 = "yjMSt"; //検索する文字列前日比
-                    int foundIndex1 = str.IndexOf(searchWord1);//始めの位置を探す
-                    int i1 = searchWord1.Length + 2;
-
-                    for (; Convert.ToString(str[foundIndex1 + i1]) != "（"; i1++)
-                    {
-                        YenRatio = YenRatio + str[foundIndex1 + i1];//previous 前日比? ¥
-                    }
-
-                    if (Convert.ToString(str[foundIndex1 + i1 + 1]) == "-")//(－)下落
-                    {
-                        tabledata.Polar = "Green";//(-)
-                    }
-                    else
-                    {
-                        tabledata.Polar = "Red";//(+)
-                    }
+                    //tabledata.Prev_day = YenRatio;//前日比±
+                    //tabledata.Percent = PercentRatio; //前日比％
+                    //tabledata.PayAssetprice = tabledata.Stocks * tabledata.Itemprice;//株数*購入単価
+                    //tabledata.Gain = (tabledata.Realprice - tabledata.Itemprice) * tabledata.Stocks;//損益
+                    //tabledata.RealValue = (tabledata.Stocks * tabledata.Realprice);//個別利益
 
 
-                    i1++;
-                    for (; Convert.ToString(str[foundIndex1 + i1]) != "）"; i1++)
-                    {
-                        PercentRatio = PercentRatio + str[foundIndex1 + i1];//previous 前日比? %
-                    }
-
-
-                    if (Value == "---")
-                    {
-                        tabledata.Realprice = 000;
-                    }
-                    else
-                    {
-                        tabledata.Realprice = Convert.ToDecimal(Value);//現在値
-                    }
-                    tabledata.Prev_day = YenRatio;//前日比±
-                    tabledata.Percent = PercentRatio; //前日比％
-                    tabledata.PayAssetprice = tabledata.Stocks * tabledata.Itemprice;//株数*購入単価
-                    tabledata.Gain = (tabledata.Realprice - tabledata.Itemprice) * tabledata.Stocks;//損益
-                    tabledata.RealValue = (tabledata.Stocks * tabledata.Realprice);//個別利益
-
-
-                    Value = "";
-                    YenRatio = "";
+                    RankingValue = "";
+                    Name = "";
                     PercentRatio = "";
                     index = index + 1;
                 }
                 catch (Exception)
                 {
-                    tabledata.Prev_day = "Close";
-                    tabledata.Polar = "Gray";
+                    //tabledata.Prev_day = "Close";
+                    //tabledata.Polar = "Gray";
                 }
 
         

@@ -559,13 +559,14 @@ namespace StockManager
           
                 ItemList.Add(new Page1ViewModel
                 {
+                    //RankingValue = anser.RankingValue,
                     Name = anser.Name,// "Sony",
-                    Stocks = anser.Stocks,//保有数*
-                    Itemprice = anser.Itemprice,// 2015,
-                    Prev_day = anser.Prev_day,//前日比±**
-                    Realprice = anser.Realprice,//現在値*// 1000,
-                    RealValue = anser.RealValue,// 100,
-                    Percent = anser.Percent,//前日比％**// "5"
+                    //Stocks = anser.Stocks,//保有数*
+                    //Itemprice = anser.Itemprice,// 2015,
+                    //Prev_day = anser.Prev_day,//前日比±**
+                    //Realprice = anser.Realprice,//現在値*// 1000,
+                    //RealValue = anser.RealValue,// 100,
+                    //Percent = anser.Percent,//前日比％**// "5"
 
                 });
                
