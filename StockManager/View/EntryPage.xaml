@@ -8,16 +8,14 @@
     <ContentPage.Content>
         <StackLayout Padding="5,10">
             
-            <Label Text="Unlike the Editor, the Entry view supports more advanced formatting and customization." />
+            <Label Text="変更内容を有効にするには SAVE をタップする。" TextColor="Orange" FontAttributes="Bold" />
             <ScrollView VerticalOptions="StartAndExpand">
                 <StackLayout>
-                    <Entry  x:Name="index" Placeholder="Index" TextChanged="Entry_TextChanged" Keyboard="Numeric"  />
+                    <Label  x:Name="index"  TextColor="Gray" FontSize="15" FontAttributes="Bold"/>
                     <Entry  x:Name="code" Placeholder="Code"  />
                     <Entry  x:Name="stock" Placeholder="Stock" />
                     <Entry  x:Name="price" Placeholder="Price" />
-                    <Entry Placeholder="Placeholder text" />
-                    <Entry IsEnabled="false" Text="This is a disabled entry" />
-                    <Entry TextColor="#77d065" Text="This is an entry with a textcolor specified" />
+                   
                 </StackLayout>
             </ScrollView>
         </StackLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StockManager.AddPage"
+             Title="Add. Mode">
+
+    
+    <ContentPage.Content>
+         <StackLayout Padding="5,10">
+            
+            <Label Text="入力内容を有効にするには ADD. をタップする。" TextColor="Orange" FontAttributes="Bold" />
+            <ScrollView VerticalOptions="StartAndExpand">
+                <StackLayout>
+                    <Entry  x:Name="code" Placeholder="Code" Keyboard="Default"  />
+                    <Entry  x:Name="stock" Placeholder="Stock" Keyboard="Numeric"/>
+                    <Entry  x:Name="price" Placeholder="Price" Keyboard="Numeric"/>
+                  </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

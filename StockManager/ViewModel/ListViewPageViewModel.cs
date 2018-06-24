@@ -307,8 +307,6 @@ namespace StockManager
             //Selecter("Page2");//スタートアップ Ranking 画面
 
 
-        
-
         }
 
 
@@ -334,21 +332,18 @@ namespace StockManager
             }
             else//Page2
             {
-                this.ItemList = new ObservableCollection<PageViewModel>{
-                    new Page2ViewModel{ Title2 = "Item1"},
-                    new Page2ViewModel{ Title2 = "Item2"},
-                    new Page2ViewModel{ Title2 = "Item3"},
-                    new Page2ViewModel{ Title2 = "Item4"},
-                    new Page2ViewModel{ Title2 = "Item5"},
-                   };
+                SetRankingTabledata();
+
+                //this.ItemList = new ObservableCollection<PageViewModel>{
+                   // new Page2ViewModel{ Title2 = "Item1"},
+                   // new Page2ViewModel{ Title2 = "Item2"},
+                   // new Page2ViewModel{ Title2 = "Item3"},
+                   // new Page2ViewModel{ Title2 = "Item4"},
+                   // new Page2ViewModel{ Title2 = "Item5"},
+                   //};
               
 
             }
-
-                //ListView ItemsSource
-                //this.SelectPages = new ObservableCollection<PageViewModel>(PageViewModels);
-
-
 
         }
 
@@ -384,35 +379,6 @@ namespace StockManager
         }
 
 
-
-        //private async void Refresh(string key)
-        //{
-        //    await View.DisplayAlert("XSample", "SelectItem-" + key, "OK");
-
-        //    var index = Convert.ToInt32(key);
-
-
-
-        //    List<Price> pricesanser = await Models.PasonalGetserchi();//登録データの現在値を取得する
-
-
-        //    ItemList[index] = (new Page1ViewModel
-        //    {
-        //        Name = pricesanser[index].Name,// "Sony",
-        //        Stocks = pricesanser[index].Stocks,//保有数*
-        //        Itemprice = pricesanser[index].Itemprice,//
-        //        Prev_day = pricesanser[index].Percent,//前日比％**
-        //        Realprice = pricesanser[index].Realprice,//現在値*// 1000,
-        //        RealValue = pricesanser[index].RealValue,// 100,
-        //        Percent = pricesanser[index].Percent,//前日比％**// "5"
-        //        Gain = pricesanser[index].Gain,//損益
-        //                                       //ButtonId = index.ToString(),
-        //                                       //ButtonColor = pricesanser[index].Polar,
-
-        //    });
-
-
-        //}
 
 
 
@@ -573,6 +539,50 @@ namespace StockManager
             UptoAsset = TotalAsset - PayAssetprice;
 
         }
+
+
+
+
+        public async void SetRankingTabledata()
+        {
+            int i = 0;
+            decimal TotalAssetAdd = 0;
+            decimal PayAssetpriceAdd = 0;
+
+
+
+           
+            // List<Price> prices = Finance.Parse(await StorageControl.PCLLoadCommand());//登録データ読み込み
+            Tabledata anser = await Models.RankingTabledata();//登録データの現在値を取得する
+
+
+          
+                ItemList.Add(new Page1ViewModel
+                {
+                    Name = anser.Name,// "Sony",
+                    Stocks = anser.Stocks,//保有数*
+                    Itemprice = anser.Itemprice,// 2015,
+                    Prev_day = anser.Prev_day,//前日比±**
+                    Realprice = anser.Realprice,//現在値*// 1000,
+                    RealValue = anser.RealValue,// 100,
+                    Percent = anser.Percent,//前日比％**// "5"
+
+                });
+               
+
+                i = ++i;
+
+
+            PayAssetprice = PayAssetpriceAdd;
+            TotalAsset = TotalAssetAdd;
+            UptoAsset = TotalAsset - PayAssetprice;
+
+
+
+
+        }
+
+
 
 
 

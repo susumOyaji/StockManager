@@ -18,15 +18,15 @@ namespace StockManager.View
 
 
             //NavigationPage.SetHasNavigationBar(this, false);
-            var ID = new Label { Text = itemindex.ToString(), BackgroundColor = Color.Gray, TextColor = Color.White };
-            index.Text = itemindex.ToString();
+            //var ID = new Label { Text = itemindex.ToString(), BackgroundColor = Color.Gray, TextColor = Color.White };
+            //現行データを表示する
+            index.Text = "登録順位   " + itemindex.ToString();
             code.Text = itemname;
             stock.Text = itemstock.ToString();
             price.Text = itemprice.ToString();
 
 
-
-
+         
             ToolbarItems.Add(new ToolbarItem
             { // <-2
                 Text = "Cansel", // <-3
@@ -36,7 +36,7 @@ namespace StockManager.View
             ToolbarItems.Add(new ToolbarItem
             {
                 Text = "Save",
-                Command = new Command(() => SetData(itemindex, index, code, price))
+                Command = new Command(() => SetData(itemindex, code, stock, price))
             });
 
         }
@@ -48,14 +48,14 @@ namespace StockManager.View
 
         void Entry_Completed(object sender, EventArgs e)
         {
-
+            
         }
 
-        public void SetData(int index, Entry code, Entry cost, Entry shares)
+        public void SetData(int index, Entry code, Entry stock, Entry price)
         {
-            if (code.Text != "" && cost.Text != "" && shares.Text != "")
+            if (code.Text != "" && stock.Text != "" && price.Text != "")
             {
-                string SaveData = code.Text + "," + cost.Text + "," + shares.Text;
+                string SaveData = code.Text + "," + stock.Text + "," + price.Text;
                 ListViewPageViewModel.DataSave(index, SaveData);
                 Navigation.PopAsync();
             }

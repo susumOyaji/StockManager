@@ -65,4 +65,31 @@ namespace StockManager
         }
     }
 
+
+
+    public partial class Tabledata
+    {
+        public string Name { get; set; }//会社名*
+        public decimal Stocks { get; set; }//保有数*
+        public decimal Itemprice { get; set; }//購入価格*
+        public decimal Realprice { get; set; }//現在値**
+        public string Prev_day { get; set; }//前日比±**
+        public string Percent { get; set; }//前日比％**
+        public string Polar { get; set; }//上げ下げ(+ or -)
+        public decimal PayAssetprice { get; set; }//保有数* 購入価格 = 投資総額
+        public decimal RealValue { get; set; }//利益総額
+        //public decimal Ask { get; set; }//買値
+        public decimal Bid { get; set; }//売値/取引値
+        public decimal Investmen { get; set; }//投資額
+        public decimal Investmens { get; set; }//投資総額
+        public decimal UptoAsset { get; set; }//個別利益
+        public decimal TotalAsset { get; set; }//現在評価額合計
+        //public string  ButtonId { get; set; }
+        //public string ButtonColor { get; set; }
+        public decimal Gain { get; set; }//損益
+        public string FirstLastName { get { return Prev_day + "," + Percent; } }
+        public int Idindex { get; set; }
+
+    }
+
 }

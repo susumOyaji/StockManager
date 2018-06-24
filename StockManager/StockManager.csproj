@@ -49,6 +49,7 @@
     <Compile Remove="View\MainPage.xaml.cs" />
     <Compile Remove="ViewModel\MainPageMenu.cs" />
     <Compile Remove="View\EntryPage.cs" />
+    <Compile Remove="View\AddPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="View\EntryPage.xaml.cs">

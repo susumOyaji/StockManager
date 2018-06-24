@@ -362,49 +362,43 @@ namespace StockManager
 
 
         #region UpPersonaldata
-        public static async Task UpPersonaldata(string regdata)
+        public static async Task<Tabledata> RankingTabledata()
         {
             int index = 0;
             int i = 0;
-            Decimal PayAssetprice = 0;
-            Decimal TotalAssetprice = 0;
-            string NameMulti = "";
-            string TrgetWord = null, TrgetWord1 = null, TrgetWord2 = null;
+            //Decimal PayAssetprice = 0;
+            //Decimal TotalAssetprice = 0;
+            //string NameMulti = "";
+            //string TrgetWord = null, TrgetWord1 = null, TrgetWord2 = null;
+            string Value = null;
+            string YenRatio = null;
+            string PercentRatio = null;
 
-            // UTF8のファイルの読み込み Edit.        
-            string responce = regdata;// await mainViewModel.PCLLoadCommand();//登録データ読み込み         
 
-            /*List<Price>*/
-            //var resPrice = await PasonalGetserchi();//登録件数設定
-            ////////////////////////////////////////////////////////////////////
-            List<Price> prices = Finance.Parse(responce);
 
-            foreach (Price price in prices)
-            {
-                NameMulti = NameMulti + price.Name + ",";
-            }
-
-            string url = "https://info.finance.yahoo.co.jp/search/?query=" + NameMulti;//6758%2C9837%2C6976%2C%2C%2C%2C"
+            string url = "https://info.finance.yahoo.co.jp/ranking/?kd=8&tm=d&vl=a&mk=3&p=1";
             var httpClient = new HttpClient();
             string str = await httpClient.GetStringAsync(url);
+           
+            Tabledata tabledata = new Tabledata();
 
-            foreach (Price price in prices)
-            {
-                string searchWord = "slk:stock_price;pos:" + Convert.ToSingle(prices.Count);//最初の検索する企業 
-                int foundIndex = str.IndexOf(searchWord);   //始めの位置を探す
 
-                int nextIndex = foundIndex + searchWord.Length; //現在値の検索開始位置
+
+          
+                string searchWord = "rankingTabledata yjM";    //検索する文字列 ="stoksPrice"> 
+                int foundIndex = str.IndexOf(searchWord);//始めの位置を探す
+                                                         //次の検索開始位置
+                int nextIndex = foundIndex + searchWord.Length;
                 try
                 {
                     //次の位置を探す
-                    string pricesearchWord = "price yjXXL";
-                    foundIndex = str.IndexOf(pricesearchWord, nextIndex);
+                    foundIndex = str.IndexOf(searchWord, nextIndex);
                     if (foundIndex != -1)
                     {
-                        i = foundIndex + pricesearchWord.Length + 2; //pricedata to point 14209
-                        for (; Convert.ToString(str[i]) != "<"; i++)
+                        i = searchWord.Length + 2;//pricedata to point
+                        for (; Convert.ToString(str[foundIndex + i]) != "<"; i++)
                         {
-                            TrgetWord = TrgetWord + str[i]; //current value 現在値
+                            Value = Value + str[foundIndex + i];//current value 現在値
                         }
                     }
                     else
@@ -412,121 +406,64 @@ namespace StockManager
                         //price[0] = "Error";
                     }
 
-                    string searchWord1 = "strong greenFin"; //検索する文字列前日比
+                    string searchWord1 = "yjMSt"; //検索する文字列前日比
                     int foundIndex1 = str.IndexOf(searchWord1);//始めの位置を探す
                     int i1 = searchWord1.Length + 2;
 
-                    for (; Convert.ToString(str[foundIndex1 + i1]) != "<"; i1++)
+                    for (; Convert.ToString(str[foundIndex1 + i1]) != "（"; i1++)
                     {
-                        TrgetWord1 = TrgetWord1 + str[foundIndex1 + i1];//previous 前日比? ¥
+                        YenRatio = YenRatio + str[foundIndex1 + i1];//previous 前日比? ¥
                     }
-
-
 
                     if (Convert.ToString(str[foundIndex1 + i1 + 1]) == "-")//(－)下落
                     {
-                        price.Polar = "-";
+                        tabledata.Polar = "Green";//(-)
                     }
                     else
                     {
-                        price.Polar = "+";
+                        tabledata.Polar = "Red";//(+)
                     }
 
 
                     i1++;
-
-                    string searchWord2 = "strong greenFin"; //検索する文字列前日比
-                    int foundIndex2 = str.IndexOf(searchWord2, foundIndex1 + searchWord2.Length);//始めの位置を探す
-                    int i2 = searchWord2.Length + 2;
-
-                    for (; Convert.ToString(str[foundIndex2 + i2]) != "<"; i2++)
+                    for (; Convert.ToString(str[foundIndex1 + i1]) != "）"; i1++)
                     {
-                        TrgetWord2 = TrgetWord2 + str[foundIndex2 + i2];//previous 前日比? %
+                        PercentRatio = PercentRatio + str[foundIndex1 + i1];//previous 前日比? %
                     }
-                    prices[index].Name = NameMulti;//Code Namber
-                    prices[index].Stocks = 123;
-                    prices[index].Itemprice = 1111;
-                    prices[index].Realprice = Convert.ToDecimal(TrgetWord);//現在値
-                    prices[index].RealValue = 1212;
-                    prices[index].Percent = "%";
-                    prices[index].Prev_day = TrgetWord1;//前日比±
-                    prices[index].Percent = TrgetWord2; //前日比％
 
-                    TrgetWord = "";
-                    TrgetWord1 = "";
-                    TrgetWord2 = "";
-                    ///
-                    //Pasonalresponce[index] = price.Name + ","+ Convert.ToString(price.Stocks) + "," + Convert.ToString(price.Itemprice);
+
+                    if (Value == "---")
+                    {
+                        tabledata.Realprice = 000;
+                    }
+                    else
+                    {
+                        tabledata.Realprice = Convert.ToDecimal(Value);//現在値
+                    }
+                    tabledata.Prev_day = YenRatio;//前日比±
+                    tabledata.Percent = PercentRatio; //前日比％
+                    tabledata.PayAssetprice = tabledata.Stocks * tabledata.Itemprice;//株数*購入単価
+                    tabledata.Gain = (tabledata.Realprice - tabledata.Itemprice) * tabledata.Stocks;//損益
+                    tabledata.RealValue = (tabledata.Stocks * tabledata.Realprice);//個別利益
+
+
+                    Value = "";
+                    YenRatio = "";
+                    PercentRatio = "";
                     index = index + 1;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    //var accepted = await DisplayAlert(e.Message, "市場が開始していません。", "Ok", "Cancel");
-                    MessagingCenter.Send(e, "progress_dialog", true);
-                    //if (accepted == true)
-                    //{   
-                    //    Application.Current.MainPage = new WebSerchi();
-                    //    //Navigation.InsertPageBefore(new WebSerchi(), this);
-                    //    //buttonDialog1.Text = "Accepted!";
-                    //    //break;
-                    //}
+                    tabledata.Prev_day = "Close";
+                    tabledata.Polar = "Gray";
                 }
 
-                /// }
-                // return prices;//polarity;
+        
+            return tabledata;//polarity;
 
+        }//class to end 
 
-
-                /////////////////////////////////////////////////////////////
-                ///  foreach (Price price in prices)
-                ///  {
-                price.PayAssetprice = PayAssetprice + Convert.ToDecimal(price.Stocks) * Convert.ToDecimal(price.Itemprice);//保有数*購入価格=投資総額
-
-                price.Investmen = (price.PayAssetprice);//投資総額
-
-                if (price.Realprice.ToString() != "---")
-                {
-                    TotalAssetprice = TotalAssetprice + Convert.ToDecimal(price.Stocks) * Convert.ToDecimal(price.Realprice);//保有数*時価=時価総額
-                    price.TotalAsset = Convert.ToDecimal(TotalAssetprice);// Convert.ToString(TotalAssetprice);//時価総額
-                }
-                else
-                {
-                    price.TotalAsset = 0;
-                }
-
-                if (price.Polar != "-")
-                {
-                    //UptoButtons[i].BackgroundColor = Color.Red;//各銘柄
-                }
-                else
-                {
-                    //UptoButtons[i].BackgroundColor = Color.Green;
-                }
-
-                //AddGoingprice[i].Text = price.Realprice;//時価
-                i = i + 1;
-                index = index + 1;
-            }
-
-            //price.RealValue = Convert.ToInt64(TotalAssetprice - PayAssetprice);
-
-            //price.TotalAsset = String.Format("{0:#,0}", Convert.ToInt64(TotalAssetprice - PayAssetprice));//利益総額
-
-            //Decimal pasent = Convert.ToInt16((TotalAssetprice / PayAssetprice) * 100);
-            //string pasenttext = Convert.ToString(pasent) + "%";
-
-            //if (PayAssetprice <= TotalAssetprice)//
-            //{
-            //    //UptoAsset.BackgroundColor = Color.Red;//総合銘柄
-            //}
-            //else
-            //{
-            //    //UptoAsset.BackgroundColor = Color.Green;
-            //}
-
-            //return price;
-        }
-
+           
         #endregion
     }
 }
