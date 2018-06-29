@@ -1,3 +1,4 @@
+using StockManager.View;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,7 +13,9 @@ namespace StockManager
 			InitializeComponent();
 
 			//MainPage = new MainPage();
-            MainPage = new NavigationPage(new ListViewPage()); //MainPage = new NavigationPage(new MainPage()); MainPage = new StockMvvmPage();
+            //MainPage = new NavigationPage(new ListViewPage());
+            MainPage = new NavigationPage(new TabbedViewPage());
+            //MainPage = new StockMvvmPage();
             //MainPage = new NavigationPage(new MainPage());
         }
 

@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TabbedPage  xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:StockManager;assembly=StockManager" 
+             xmlns:vm1="StockManager.TabbedViewPage"
+             x:Class="StockManager.View.TabbedViewPage"
+             x:Name="page" 
+             Title="Stock Manager">
+
+
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <On Platform="iOS" Value="0, 20, 0, 0" />
+            <On Platform="Android, UWP, WinRT, WinPhone" Value="0, 0, 0, 0" />
+        </OnPlatform>
+    </ContentPage.Padding>
+
+
+
+    <TabbedPage.BindingContext>
+        <vm1:ListViewPageViewModel View="{x:Reference page}"/>
+    </TabbedPage.BindingContext>
+
+    <TabbedPage.Resources>
+        <ResourceDictionary>
+            <local:NullToDefaultConverter x:Key="NullToDef" />
+
+            <Color x:Key="PageBackgroundColor">Blue</Color>
+            <Color x:Key="NormalTextColor">Yellow</Color>
+            <Style TargetType="Button" x:Key="ButtonBG">
+                <Setter Property="BackgroundColor" Value="Aqua"/>
+            </Style>
+            <Style TargetType="Label" x:Key="TextFormat">
+                <Setter Property="TextColor" Value="White"/>
+            </Style>
+            <Style TargetType="Label" x:Key="TitleTextFormat">
+                <Setter Property="BackgroundColor" Value="#12445D"/>
+                <Setter Property="TextColor" Value="Gray"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="StackLayout" x:Key="StackLayoutFormat">
+                <!--<Setter Property="HeightRequest" Value="520"/>-->
+                <Setter Property="BackgroundColor" Value="#14435D"/>
+            </Style>
+            <!-- Frame -->
+            <Style TargetType="Frame" x:Key="FrameFormat">
+                <Setter Property="BackgroundColor" Value="#14435D"/>
+                <Setter Property="OutlineColor" Value="#14435D"/>
+            </Style>
+            <Style TargetType="Frame" x:Key="StackLayoutFrameFormat">
+                <Setter Property="BackgroundColor" Value="#0B3950"/>
+                <Setter Property="OutlineColor" Value="#0B3950"/>
+            </Style>
+            <Style TargetType="Label" x:Key="LabelAlignmet">
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalTextAlignment" Value="Start"/>
+            </Style>
+        </ResourceDictionary>
+    </TabbedPage.Resources>
+
+    <!--
+    <TabbedPage.ItemTemplate>
+        <DataTemplate>
+            <ContentPage Title="{Binding Name}" Icon="monkeyicon.png">
+                <StackLayout Padding="5, 25">
+                    <Label Text="{Binding Name}" Font="Bold,Large" HorizontalOptions="Center" />
+                    <Image Source="{Binding PhotoUrl}" WidthRequest="200" HeightRequest="200" />
+                    <StackLayout Padding="50, 10">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Family:" HorizontalOptions="FillAndExpand" />
+                            <Label Text="{Binding Family}" Font="Bold,Medium" />
+                        </StackLayout>
+                        
+                    </StackLayout>
+                </StackLayout>
+            </ContentPage>
+        </DataTemplate>
+    </TabbedPage.ItemTemplate>
+    -->
+    <!--Stockタブ1ページ目-->
+    <ContentPage Title="Stock">
+        <!-- 全体 -->
+        <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="#0B3950" HorizontalOptions="Center">
+            <!-- Nikkei & Dow -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Spacing="5" VerticalOptions="Center">
+                <!-- Nikkei -->
+                <StackLayout Orientation="Vertical" Style="{StaticResource StackLayoutFormat}" HorizontalOptions="FillAndExpand" Margin="0,0,0,5">
+                    <Grid RowSpacing="0">
+                        <!-- 行の定義 -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <!-- 列の定義 -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <!-- Ni255列全体 -->
+                        <Image Source="{local:ImageResource Images.japan2.png}" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" />
+                        <Label x:Name="Nikkei255" Grid.Row="0" Grid.Column="1"
+                           Text = "Nikkei255"
+                           TextColor = "Yellow"
+                           HorizontalTextAlignment = "Start"
+                           VerticalTextAlignment = "Center"
+                           FontSize = "15"/>
+                        <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="0" BackgroundColor="{Binding Ni255Polar ,Converter={StaticResource NullToDef}}">
+                            <Label x:Name="Ni255Goingprice"
+                                    Text = "{Binding Ni255Realprice, StringFormat='{0:#.#}'}"
+                                    TextColor = "Black" FontSize="12"
+                                    HorizontalTextAlignment = "Center"
+                                    VerticalTextAlignment = "Center"/>
+                        </Frame>
+                        <!--
+                    <Button x:Name="Ni255Button" Grid.Row="1" Grid.Column="2"  
+                        Text = "{Binding Ni255Prev_day}"
+                        TextColor = "Black" BackgroundColor="{Binding Ni255Polar ,Converter={StaticResource NullToDef}}" CommandParameter="{Binding Ni255FirstLastName}" HeightRequest="40"><Button.FontSize><OnPlatform x:TypeArguments="x:Double" iOS="15" Android="13" /></Button.FontSize><Button.Triggers><EventTrigger Event="Clicked"><local:ButtonClickedTriggerAction/></EventTrigger></Button.Triggers></Button>
+                    -->
+                    </Grid>
+                </StackLayout>
+
+                <!-- NewYork列全体 -->
+                <StackLayout Orientation="Vertical" Style="{StaticResource StackLayoutFormat}" HorizontalOptions="FillAndExpand" Margin="0,0,0,5">
+                    <Grid HorizontalOptions="Center" VerticalOptions="Center" RowSpacing="0">
+                        <!-- 行の定義 -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <!-- 列の定義 -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{local:ImageResource Images.usa1.png}" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.Column="0"/>
+                        <Label x:Name="City" Grid.Row="0" Grid.Column="1" 
+                           Text = "NewYork"
+                           TextColor = "Yellow"
+                           HorizontalTextAlignment = "Start"
+                           VerticalTextAlignment = "Center"
+                           FontSize = "15"/>
+                        <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="0" BackgroundColor="{Binding Polar ,Converter={StaticResource NullToDef}}">
+                            <Label x:Name="Goingprice" 
+                               Text = "{Binding Realprice, StringFormat='{0:#.#}'}"
+                               TextColor = "Black" FontSize="12"
+                               HorizontalTextAlignment = "Center"
+                               VerticalTextAlignment = "Center"/>
+                        </Frame>
+                        <!--
+                    <Button x:Name="IndnButton" Grid.Row="1" Grid.Column="2"        
+                                Text = "{Binding Prev_day}"
+                                TextColor = "Black" BackgroundColor="{Binding Polar ,Converter={StaticResource NullToDef}}" CommandParameter="{Binding FirstLastName}" HeightRequest="40"><Button.FontSize><OnPlatform x:TypeArguments="x:Double" iOS="15" Android="13" /></Button.FontSize><Button.Triggers><EventTrigger Event="Clicked"><local:ButtonClickedTriggerAction/></EventTrigger></Button.Triggers></Button>
+                    -->
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+            <Frame Style="{StaticResource FrameFormat}" Padding="5">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" Margin="0,0,0,5">
+                    <!-- 資産状況　ボタン除く列全体 -->
+                    <Grid RowSpacing="0">
+                        <!-- 行の定義 -->
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <!-- 列の定義 -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="TitleAsset" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                           Text = "資産状況"
+                           TextColor = "White"
+                           FontSize = "Micro"
+                           VerticalOptions="Center"
+                           WidthRequest="50"
+                           HorizontalTextAlignment = "Start"
+                           VerticalTextAlignment = "Start"/>
+                        <!--
+                    <Label x:Name="AssetM" Grid.Row="1" Grid.Column="0"       
+                            Text = "Results"
+                            TextColor = "Lime"
+                            HorizontalTextAlignment = "Start"
+                            VerticalTextAlignment = "Center"
+                            FontSize = "Small"/>
+                    -->
+                        <Label x:Name="TitleTotal" Grid.Row="0" Grid.Column="1" 
+                           Text = "投資総額" 
+                           TextColor = "White"  
+                           FontSize = "Micro" 
+                           HorizontalTextAlignment = "Center"
+                           VerticalTextAlignment = "Start"/>
+                        <Label x:Name="Investmen" Grid.Row="1" Grid.Column="1"
+                           Text = "{Binding PayAssetprice, StringFormat='{0:N0}'}"
+                           TextColor = "Yellow"
+                           HorizontalTextAlignment = "Center"
+                           VerticalTextAlignment = "Center"
+                           FontSize = "Small"/>
+                        <Label x:Name="TitleStock" Grid.Row="0" Grid.Column="2"
+                           Text = "時価総額"
+                           TextColor = "White"
+                           FontSize = "Micro"
+                           HorizontalTextAlignment = "Center"
+                           VerticalTextAlignment = "Start"/>
+                        <Label x:Name="TotalAsset" Grid.Row="1" Grid.Column="2"
+                           Text = "{Binding TotalAsset, StringFormat='{0:N0}'}"
+                           TextColor = "Yellow"
+                           HorizontalTextAlignment = "Center"
+                           VerticalTextAlignment = "Center"
+                           FontSize = "Small"/>
+                        <Label x:Name="Value" Grid.Row="0" Grid.Column="3"
+                           Text = "損益"
+                           TextColor = "White"
+                           FontSize = "Micro"
+                           HorizontalTextAlignment = "Center"
+                           VerticalTextAlignment = "Start"/>
+                        <Frame BackgroundColor="#8069A1" OutlineColor="#8069A1" Grid.Row="1" Grid.Column="3" HeightRequest="15" Padding="0">
+                            <Label x:Name="GainLabel" Grid.Row="1" Grid.Column="3" Text="{Binding UptoAsset, StringFormat='{0:N0}'}" TextColor="Black" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        </Frame>
+                    </Grid>
+                </StackLayout>
+            </Frame>
+
+            <!-- Button -->
+            <Frame Style="{StaticResource StackLayoutFrameFormat}" Padding="0" Margin="0,0,0,5">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Grid>
+                        <!-- 行の定義 -->
+                        <Grid.RowDefinitions  >
+                            <RowDefinition Height="60"/>
+                        </Grid.RowDefinitions>
+                        <!-- 列の定義 -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="65"/>
+                            <ColumnDefinition Width="65"/>
+                            <ColumnDefinition Width="65"/>
+                            <ColumnDefinition Width="65"/>
+                            <ColumnDefinition Width="65"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{local:ImageResource Images.Add.png}" Grid.Row="0" Grid.Column="0">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                       
+                        <Image Source="{local:ImageResource Images.ReLoad.png}" Grid.Row="0" Grid.Column="4">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding RefCommand}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Frame x:Name="Indicator" Grid.Row="0" Grid.Column="3" BackgroundColor="Gray" IsVisible="False">
+                            <!--
+                        <StackLayout Grid.Row="0" Grid.Column="3" IsVisible="true" Opacity="0.5" Padding="-10"><ActivityIndicator x:Name="Indicator" IsRunning="false" Grid.Row="0" Grid.Column="3"><ActivityIndicator.Color><OnPlatform x:TypeArguments="Color" iOS="Orange" Android="Orange" WinPhone="Accent" /></ActivityIndicator.Color></ActivityIndicator></StackLayout>
+                        -->
+                        </Frame>
+                        <!--       
+                </ContentView></RelativeLayout>
+                -->
+                    </Grid>
+                </StackLayout>
+            </Frame>
+
+
+
+
+            <!---->
+        <ListView x:Name="ListView" ItemSelected="OnItemSelected" ItemTapped="OnItemTapped" BackgroundColor="#0B3950" HorizontalOptions="FillAndExpand" SeparatorVisibility="None" SeparatorColor="Yellow" HasUnevenRows="false" ItemsSource="{Binding ItemList}">
+            <ListView.RowHeight>
+                <OnPlatform x:TypeArguments="x:Int32">
+                    <On Platform="iOS, Android" Value="50" />
+                </OnPlatform>
+            </ListView.RowHeight>
+            
+            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <!-- 長押し -->
+                            <MenuItem Command= "{Binding Path=BindingContext.DelAddCommand, Source={x:Reference Name=page}" CommandParameter="{Binding .}" Text="Delete" />
+                            <MenuItem Clicked="CanselCommand" CommandParameter="{Binding .}" Text="Cansel" />
+                            </ViewCell.ContextActions>
+                        <Frame HeightRequest="100" Style="{StaticResource FrameFormat}" Margin="0,0,0,3">
+                        <!-- 列全体 -->
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Padding="-5">
+                    <Grid RowSpacing="-5" Margin="-10" VerticalOptions="FillAndExpand">
+                        <!-- 行の定義 -->
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <!-- 列の定義 -->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="2.5*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <!--ボタン除く列全体-->
+                        <!--<StackLayout Spacing="-5" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center">   -->
+                        <!-- 企業コード名 -->
+                        <Label x:Name="Code" Grid.Row="0" Grid.Column="0"
+                                                   Text = "Name" TextColor="Red" FontSize="Default"
+                                                   HorizontalTextAlignment = "Center"
+                                                   VerticalTextAlignment = "Start"/>
+                        <Label x:Name="City" Grid.Row="1" Grid.Column="0"
+                                                   Text = "{Binding Name}" TextColor="Red" FontSize="Default"
+                                                   HorizontalTextAlignment = "Center"
+                                                   VerticalTextAlignment = "Start"/>
+                        <!--取得金額 -->
+                        <Label Grid.Row="0" Grid.Column="1"
+                                                   Text = "買付値"
+                                                   TextColor="Gray"
+                                                   FontSize="Micro"
+                                                   Style="{StaticResource LabelAlignmet}"/>
+                        <Label x:Name="Itemprice" Grid.Row="1" Grid.Column="1"
+                                                   Text = "{Binding Itemprice}"
+                                                   TextColor = "White" FontSize="Default" Style="{StaticResource LabelAlignmet}"/>
+                        <!-- Carentprice 現在値 -->
+                        <Label Grid.Row="0" Grid.Column="2"
+                                                   Text = "現在値"
+                                                   TextColor="Gray"
+                                                   FontSize="Micro"
+                                                   Style="{StaticResource LabelAlignmet}"/>
+                        <Label x:Name="Realprice" Grid.Row="1" Grid.Column="2"
+                                                   Text = "{Binding Realprice }"
+                                                   TextColor = "White"
+                                                   FontSize="Default"
+                                                   Style="{StaticResource LabelAlignmet}"/>
+                        <!-- 損益 -->
+                        <Label Grid.Row="0" Grid.Column="3"
+                                                   Text = "利益"
+                                                   TextColor="Red"
+                                                   FontSize="Micro"
+                                                   Style="{StaticResource LabelAlignmet}"/>
+                        <Label x:Name= "Gain" Grid.Row="1" Grid.Column="3"
+                                                   Text = "{Binding Path= Gain, StringFormat='{0:N0}'}"
+                                                   TextColor = "White"
+                                                   FontSize="Default"
+                                                   Style="{StaticResource LabelAlignmet}"/>
+                        <!-- 時価総額  -->
+                        <Label Grid.Row="0" Grid.Column="4"
+                                                   Text = "時価"
+                                                   TextColor="Gray"
+                                                   FontSize="Micro"
+                                                   Style="{StaticResource LabelAlignmet}"/>
+                        <Label x:Name= "MarketCapitalization" Grid.Row="1" Grid.Column="4"
+                                                   Text = "{Binding RealValue, StringFormat='{0:N0}'}"
+                                                   TextColor = "Yellow"
+                                                   FontSize="Default"
+                                                   Style="{StaticResource LabelAlignmet}"/>
+                    </Grid>
+                    <!-- </StackLayout> -->
+                    <!--ボタン除く列全体 -->
+                    <StackLayout Spacing="-5" Margin="0,-10,0,-15" Orientation="Vertical" VerticalOptions="Start">
+                        <!--<Label x:Name="ChengeG" Text="前日比" TextColor="Gray" FontSize="Micro" HorizontalTextAlignment = "Center" VerticalTextAlignment = "Start"/>-->
+                        <Button x:Name="EventG" Text="{Binding Prev_day}"
+                                                    BackgroundColor="{Binding Polar}"
+                                                    CommandParameter="{Binding  FirstLastName}"
+                                                    WidthRequest="70">
+                            <Button.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double" iOS="35" Android="35" />
+                            </Button.HeightRequest>
+                            <Button.Triggers>
+                                <EventTrigger Event="Clicked">
+                                    <local:ButtonClickedTriggerAction/>
+                                </EventTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            </ViewCell>
+            </DataTemplate>
+          </ListView.ItemTemplate>
+        </ListView>
+
+
+
+        </StackLayout>
+    </ContentPage>
+
+
+
+
+
+
+    <!--Rankingタブ2ページ目-->
+    <ContentPage  Title="Ranking">
+        
+        <StackLayout>
+            <ListView x:Name="RankingList" ItemsSource="{Binding RankingItemList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+
+                                <Label  Text="Binding RankingValue}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+
+
+
+        <Label  Text="{Binding Dividend}" TextColor="Black"/>
+        <Label  Text="Binding Itemprice}" TextColor="Black"/>
+        <!--<BoxView Color="Blue"/>-->
+    </ContentPage>
+
+    <!--タブ3ページ目-->
+    <ContentPage Title="Tab3">
+        <BoxView Color="Green"/>
+    </ContentPage>
+
+
+
+</TabbedPage>
+
+

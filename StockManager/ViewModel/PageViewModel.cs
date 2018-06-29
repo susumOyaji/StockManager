@@ -202,6 +202,32 @@ namespace StockManager
             }
         }
 
+        private string _rankingValue;
+        public string RankingValue
+        {
+            get
+            {
+                return this._rankingValue;
+            }
+            set
+            {
+                this.SetProperty(ref this._rankingValue, value);
+            }
+        }
+
+        private string _dividend;
+        public string Dividend
+        {
+            get
+            {
+                return this._dividend;
+            }
+            set
+            {
+                this.SetProperty(ref this._dividend, value);
+            }
+        }
+
 
     }
 

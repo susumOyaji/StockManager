@@ -1,4 +1,5 @@
 using PCLStorage.Exceptions;
+using StockManager.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,10 +23,10 @@ namespace StockManager
         /// <summary>
         /// View への参照
         /// </summary>
-        public ListViewPage View { get; set; }
+        public TabbedViewPage View { get; set; }
        
 
-        public ICommand SelectCommand { private set; get; }
+       // public ICommand SelectCommand { private set; get; }
         public ICommand ModelOnLabel { get; }
         /// <summary>
         /// ListView の各 Item 内の Button にバインディングする Command
@@ -38,8 +39,8 @@ namespace StockManager
         // ListViewを引っ張った時に実行させるコマンド
         public ICommand AddCommand { get; private set; }
 
-        //public ObservableCollection<Price> ItemList { get; set; }
-        //public ObservableCollection<PageViewModel> ItemList { get; set; }
+        public ObservableCollection<Price> ItemList { get; set; }//ListView ItemSource
+        public ObservableCollection<Tabledata> RankingItemList { get; set; }
 
         #region  OnPropertyChanged
         private static decimal _payAssetprice;
@@ -258,19 +259,23 @@ namespace StockManager
         }
 
 
-        private ObservableCollection<PageViewModel> _itemList;
+        //private ObservableCollection<PageViewModel> _itemList;
 
-        public ObservableCollection<PageViewModel> ItemList
-        {
-            get
-            {
-                return this._itemList;
-            }
-            set
-            {
-                this.SetProperty(ref this._itemList, value);
-            }
-        }
+        //public ObservableCollection<PageViewModel> ItemList
+        //{
+        //    get
+        //    {
+        //        return this._itemList;
+        //    }
+        //    set
+        //    {
+        //        this.SetProperty(ref this._itemList, value);
+        //    }
+        //}
+
+       
+
+
 
 
 
@@ -286,11 +291,14 @@ namespace StockManager
         {
 
            
-            //ItemList = new ObservableCollection<PageViewModel>();//初期化
+            ItemList = new ObservableCollection<Price>();//初期化
+            RankingItemList = new ObservableCollection<Tabledata>();//初期化
+
+
             RefCommand = new CountUpCommand(IncrementData);
             //DelAddCommand = new CountUpCommand(DelAdd);
-            DelAddCommand = new DelegateCommand<PageViewModel>(DelAdd);
-            SelectCommand = new DelegateCommand<object>(Selecter);
+            DelAddCommand = new DelegateCommand<Price>(DelAdd);
+            //SelectCommand = new DelegateCommand<object>(Selecter);
             AddCommand = new CountUpCommand(DataAdd);
 
             ItemCommand = new Command<string>((key) =>
@@ -302,9 +310,10 @@ namespace StockManager
 
 
             StdStock();
-            //DispSet(false);
-            Selecter("Page1");//スタートアップ Stock 画面
-            //Selecter("Page2");//スタートアップ Ranking 画面
+            DispSet(false);
+            SetRankingTabledata();
+
+
 
 
         }
@@ -313,46 +322,7 @@ namespace StockManager
 
 
         #region メソッド
-        public  void Selecter(object sender)
-        {
-            //var SourceBool = (string)sender.CommandParameter;//FirstLastName (Prev_day or Percent)
-            ItemList = new ObservableCollection<PageViewModel>();//初期化
-            //PageViewModel[] PageViewModels;
-
-            var disp = Convert.ToString(sender);
-
-            if (disp == "Page1")//Page1
-            {
-                //this.ItemList = new ObservableCollection<PageViewModel>{
-                //    new Page1ViewModel{ Name = "Page1"},
-                //};
-                 DispSet(false);
-
-
-            }
-            else//Page2
-            {
-                SetRankingTabledata();
-
-                //this.ItemList = new ObservableCollection<PageViewModel>{
-                   // new Page2ViewModel{ Title2 = "Item1"},
-                   // new Page2ViewModel{ Title2 = "Item2"},
-                   // new Page2ViewModel{ Title2 = "Item3"},
-                   // new Page2ViewModel{ Title2 = "Item4"},
-                   // new Page2ViewModel{ Title2 = "Item5"},
-                   //};
-              
-
-            }
-
-        }
-
-
-
-
-
-
-
+       
         public static void DataSave(int ID, string savedata)
         {
             //Models Model = new Models();
@@ -371,7 +341,7 @@ namespace StockManager
 
         }
 
-        public void DelAdd(PageViewModel parameter)
+        public void DelAdd(Price parameter)
         {
             var itemindex = (parameter).Idindex;
             Models.Deleet(itemindex);
@@ -425,25 +395,6 @@ namespace StockManager
 
 
 
-        //private void Sample()
-        //{
-        //    ItemList.Add(new Page1ViewModel
-        //    {
-        //        Name = "SampleSony",
-        //        Stocks = 100,
-        //        Itemprice = 2015,
-        //        Realprice = 1000,
-        //        RealValue = 100,
-        //        Percent = "5"
-        //    });
-
-
-
-        //}
-
-
-
-
 
 
 
@@ -468,7 +419,7 @@ namespace StockManager
 
                 foreach (Price item in pricesanser)
                 {
-                    ItemList.Add(new Page1ViewModel
+                    ItemList.Add(new Price
                     {
                         Name = item.Name,// "Sony",
                         Stocks = item.Stocks,//保有数*
@@ -479,7 +430,7 @@ namespace StockManager
                         Idindex = i,
                         // ButtonColor = item.Polar,
                         Polar = item.Polar,
-                        FirstLastName = item.FirstLastName,
+                       // FirstLastName = item.FirstLastName,
                         Percent = item.Percent,//前日比％**// "5"
                         Gain = item.Gain,//損益Name
                     });
@@ -517,7 +468,7 @@ namespace StockManager
 
             foreach (Price item in priceanser)
             {
-                ItemList.Add(new Page1ViewModel
+                ItemList.Add(new Price
                 {
                     Name = item.Name,// "Sony",
                     Stocks = item.Stocks,//保有数*
@@ -546,40 +497,28 @@ namespace StockManager
         public async void SetRankingTabledata()
         {
             int i = 0;
-            decimal TotalAssetAdd = 0;
-            decimal PayAssetpriceAdd = 0;
-
-
-
+           
            
             // List<Price> prices = Finance.Parse(await StorageControl.PCLLoadCommand());//登録データ読み込み
-            Tabledata anser = await Models.RankingTabledata();//登録データの現在値を取得する
-
-
-          
-                ItemList.Add(new Page1ViewModel
-                {
-                    //RankingValue = anser.RankingValue,
-                    Name = anser.Name,// "Sony",
-                    //Stocks = anser.Stocks,//保有数*
-                    //Itemprice = anser.Itemprice,// 2015,
-                    //Prev_day = anser.Prev_day,//前日比±**
-                    //Realprice = anser.Realprice,//現在値*// 1000,
-                    //RealValue = anser.RealValue,// 100,
-                    //Percent = anser.Percent,//前日比％**// "5"
-
-                });
-               
-
-                i = ++i;
-
-
-            PayAssetprice = PayAssetpriceAdd;
-            TotalAsset = TotalAssetAdd;
-            UptoAsset = TotalAsset - PayAssetprice;
+            Tabledata anser = await Models.RankingTabledata();//データの現在値を取得する
 
 
 
+            RankingItemList.Add(new Tabledata
+            {
+                RankingValue = anser.RankingValue,
+                Name = anser.Name,// "Sony",
+                Dividend = anser.Dividend,//保有数*
+                //Itemprice = anser.Itemprice,// 2015,
+                //Prev_day = anser.Prev_day,//前日比±**
+                //Realprice = anser.Realprice,//現在値*// 1000,
+                //RealValue = anser.RealValue,// 100,
+                //Percent = anser.Percent,//前日比％**// "5"
+
+            });
+
+
+            i = ++i;
 
         }
 

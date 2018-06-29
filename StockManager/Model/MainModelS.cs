@@ -361,7 +361,7 @@ namespace StockManager
 
 
 
-        #region UpPersonaldata
+  
         public static async Task<Tabledata> RankingTabledata()
         {
             int index = 0;
@@ -373,7 +373,7 @@ namespace StockManager
             string RankingValue = null;
             string Name = null;
             string Dividend= null;
-            string PercentRatio = null;
+          
 
 
 
@@ -390,18 +390,19 @@ namespace StockManager
                 string RankWore = "txtcenter\">";
 
                 int foundIndex = str.IndexOf(searchWord);//始めの位置を探す
-                                                         //次の検索開始位置
+
+                //Rankingの検索開始位置
                 int RankIndex = foundIndex + searchWord.Length;
                 try
                 {
                     //次の位置を探す
                     foundIndex = str.IndexOf(RankWore, RankIndex);
 
-                for (; Convert.ToString(str[foundIndex + i]) != "<"; i++)
+                for (; Convert.ToString(str[foundIndex+ RankWore.Length + i]) != "<"; i++)
                 {
                     if (foundIndex != -1)
                     {
-                        RankingValue = RankingValue + str[foundIndex + RankWore.Length];//current value 順位
+                        RankingValue = RankingValue + str[foundIndex + RankWore.Length + i];//current value 順位
                     }
                 }
                   
@@ -429,30 +430,30 @@ namespace StockManager
 
 
                     i++;
-                    for (; Convert.ToString(str[foundIndex + i]) != "）"; i++)
-                    {
-                        PercentRatio = PercentRatio + str[foundIndex + i];//previous 前日比? %
-                    }
+                    //for (; Convert.ToString(str[foundIndex + i]) != "）"; i++)
+                    //{
+                    //    PercentRatio = PercentRatio + str[foundIndex + i];//previous 前日比? %
+                    //}
 
 
-                    if (RankingValue == "---")
-                    {
-                        //tabledata.Realprice = 000;
-                    }
-                    else
-                    {
-                        //tabledata.Realprice = Convert.ToDecimal(RankingValue);//現在値
-                    }
-                    //tabledata.Prev_day = YenRatio;//前日比±
-                    //tabledata.Percent = PercentRatio; //前日比％
-                    //tabledata.PayAssetprice = tabledata.Stocks * tabledata.Itemprice;//株数*購入単価
+                    //if (RankingValue == "---")
+                    //{
+                    //    //tabledata.Realprice = 000;
+                    //}
+                    //else
+                    //{
+                    //    //tabledata.Realprice = Convert.ToDecimal(RankingValue);//現在値
+                    //}
+                    tabledata.RankingValue = RankingValue;//順位
+                    tabledata.Name = Name; //企業名
+                    tabledata.Dividend = Dividend;//配当金額
                     //tabledata.Gain = (tabledata.Realprice - tabledata.Itemprice) * tabledata.Stocks;//損益
                     //tabledata.RealValue = (tabledata.Stocks * tabledata.Realprice);//個別利益
 
 
                     RankingValue = "";
                     Name = "";
-                    PercentRatio = "";
+                    Dividend = "";
                     index = index + 1;
                 }
                 catch (Exception)
@@ -467,7 +468,7 @@ namespace StockManager
         }//class to end 
 
            
-        #endregion
+     
     }
 }
 

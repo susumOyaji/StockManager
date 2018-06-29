@@ -11,10 +11,10 @@ namespace StockManager.View
         {
             InitializeComponent();
 
-            var itemindex = ((PageViewModel)e.SelectedItem).Idindex;
-            var itemname = ((PageViewModel)e.SelectedItem).Name;
-            var itemstock = ((PageViewModel)e.SelectedItem).Stocks;
-            var itemprice = ((PageViewModel)e.SelectedItem).Itemprice;
+            var itemindex = ((Price)e.SelectedItem).Idindex;
+            var itemname = ((Price)e.SelectedItem).Name;
+            var itemstock = ((Price)e.SelectedItem).Stocks;
+            var itemprice = ((Price)e.SelectedItem).Itemprice;
 
 
             //NavigationPage.SetHasNavigationBar(this, false);
